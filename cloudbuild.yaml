@@ -8,10 +8,13 @@ steps:
         apk add --no-cache git-lfs
         git lfs install
         git lfs pull
+        echo "✅ LFS файлы загружены:"
+        ls -lh public/ucdocs/
   
   # Собираем Docker образ
+  # Важно: используем --no-cache чтобы убедиться что файлы свежие
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/ucomplex-ru:$COMMIT_SHA', '.']
+    args: ['build', '--no-cache', '-t', 'gcr.io/$PROJECT_ID/ucomplex-ru:$COMMIT_SHA', '.']
     timeout: '1800s'
   
   # Пушим образ в Container Registry

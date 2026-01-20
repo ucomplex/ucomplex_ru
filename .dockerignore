@@ -11,3 +11,9 @@ README.md
 .env*.local
 .vscode
 .idea
+
+# Важно: НЕ игнорируем public директорию
+!public/
+!public/**/*
+!public/ucdocs/
+!public/ucdocs/*.pdf

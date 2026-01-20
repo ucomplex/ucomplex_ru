@@ -1,0 +1,11 @@
+# Этот файл указывает, какие файлы не загружать в App Engine
+
+.gcloudignore
+.git
+.gitignore
+node_modules/
+.next/cache/
+.DS_Store
+*.md
+!README.md
+.env*.local

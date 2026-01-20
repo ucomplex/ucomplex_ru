@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ucomplex-ru
+  labels:
+    app: ucomplex-ru
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ucomplex-ru
+  template:
+    metadata:
+      labels:
+        app: ucomplex-ru
+    spec:
+      containers:
+      - name: ucomplex-ru
+        image: gcr.io/YOUR_PROJECT_ID/ucomplex-ru:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NODE_ENV
+          value: "production"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ucomplex-ru-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: ucomplex-ru
