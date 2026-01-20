@@ -3,11 +3,8 @@ FROM node:20-alpine AS base
 
 # Устанавливаем зависимости только когда нужно
 FROM base AS deps
-RUN apk add --no-cache libc6-compat git git-lfs
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
-
-# Инициализируем git lfs
-RUN git lfs install
 
 # Копируем файлы зависимостей
 COPY package.json package-lock.json* ./
