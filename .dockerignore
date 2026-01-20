@@ -1,19 +1,28 @@
-Dockerfile
-.dockerignore
+# Игнорируем только то, что точно не нужно
 node_modules
 npm-debug.log
-README.md
-.next
+.next/cache
 .git
 .gitignore
 .DS_Store
-*.md
 .env*.local
 .vscode
 .idea
 
-# Важно: НЕ игнорируем public директорию
-!public/
-!public/**/*
-!public/ucdocs/
-!public/ucdocs/*.pdf
+# Документация (но НЕ в public)
+/README.md
+/DEPLOY.md
+/DOMAIN-SETUP.md
+/UCDOCS-FIX.md
+/CHANGELOG.md
+/LICENSE.md
+
+# Скрипты деплоя
+*.sh
+
+# Docker файлы
+Dockerfile
+.dockerignore
+
+# ВАЖНО: public/ директория ДОЛЖНА копироваться полностью!
+# Поэтому мы НЕ добавляем её в .dockerignore
