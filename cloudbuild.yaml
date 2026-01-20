@@ -1,0 +1,36 @@
+steps:
+  # Устанавливаем git-lfs
+  - name: 'gcr.io/cloud-builders/git'
+    args: ['lfs', 'install']
+  
+  # Скачиваем LFS файлы
+  - name: 'gcr.io/cloud-builders/git'
+    args: ['lfs', 'pull']
+  
+  # Собираем Docker образ
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/ucomplex-ru:$COMMIT_SHA', '.']
+  
+  # Пушим образ в Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/ucomplex-ru:$COMMIT_SHA']
+  
+  # Деплоим на Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'ucomplex-ru'
+      - '--image=gcr.io/$PROJECT_ID/ucomplex-ru:$COMMIT_SHA'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--port=8080'
+
+images:
+  - 'gcr.io/$PROJECT_ID/ucomplex-ru:$COMMIT_SHA'
+
+options:
+  machineType: 'N1_HIGHCPU_8'
+  logging: CLOUD_LOGGING_ONLY
